@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Logo from '../Logo/logo';
-// import Navigation from '../Navigation/navigation';
+import Navigation from '../Navigation/navigation';
 import classes from './header.module.scss';
 
 const Header = () => {
@@ -18,8 +18,10 @@ const Header = () => {
 
   return (
     <header className={headerClasses}>
-      <Logo />
-      {/* <Navigation /> */}
+      <div className={['container', classes.header__container].join(' ')}>
+        <Logo />
+        <Navigation />
+      </div>
     </header>
   );
 };

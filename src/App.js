@@ -1,11 +1,12 @@
-import React from "react";
-import "./App.scss";
-import Header from "./components/Header/header";
-import Section from "./components/Section/section";
+import React from 'react';
+import './App.scss';
+import Header from './components/Header/header';
+import Section from './components/Section/section';
+import SimpleForm from './components/SearchForms/SimpleForm/simpleForm';
 
-import barImage from "./assets/background.jpg";
-import formImage from "./assets/background2.jpg";
-import mapImage from "./assets/background3.jpg";
+import barImage from './assets/background.jpg';
+import formImage from './assets/background2.jpg';
+import mapImage from './assets/background3.jpg';
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
       <Header />
       <Section backgroundImage={barImage} sectionId="Hero">
         <p>Hero</p>
+        <SimpleForm />
       </Section>
-      <Section backgroundImage={formImage} sectionId="Form">
+      <Section backgroundImage={formImage} sectionId="Search">
         <p>Form</p>
       </Section>
       <Section backgroundImage={mapImage} sectionId="Map">

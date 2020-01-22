@@ -1,9 +1,13 @@
-import React from "react";
+import React from 'react';
 
-const Header = () => {
+import classes from './navItem.module.scss';
+
+const NavItem = props => {
   return (
-    
+    <a href={props.link} className={classes.navigation_item}>
+      {props.name}
+    </a>
   );
 };
 
-export default Header;
+export default NavItem;
