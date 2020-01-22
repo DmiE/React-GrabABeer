@@ -1,0 +1,14 @@
+.section {
+  height: 100vh;
+  background-color: #444;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 60px;
+}
+
+.section__anchor {
+  visibility: hidden;
+  position: relative;
+  top: -50px;
+}
