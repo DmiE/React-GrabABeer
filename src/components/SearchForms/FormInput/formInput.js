@@ -5,6 +5,7 @@ const FormInput = props => {
 
   return (
     <input
+      className={props.className}
       type="text"
       value={value}
       placeholder={props.placeholder}

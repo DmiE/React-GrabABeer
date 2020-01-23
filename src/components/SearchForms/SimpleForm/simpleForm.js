@@ -7,9 +7,9 @@ const SimpleForm = () => {
     <form action="">
       <FormInput
         className={classes.simple_form__input}
-        placeholder="type beer search for"
+        placeholder="type beer you search for"
       />
-      <button></button>
+      <button>SEARCH</button>
     </form>
   );
 };
