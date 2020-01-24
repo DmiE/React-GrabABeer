@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 
 const FormSelect = props => {
-  const [value, setValue] = useState('');
-
   return (
     <select
       className={props.className}
-      value={value}
-      onChange={e => setValue(e.target.value)}
-      onBlur={e => setValue(e.target.value)}
+      value={props.value}
+      id={props.id}
+      onChange={props.onChange}
+      onBlur={props.onChange}
     >
       <option value="">all</option>
       {props.options.map(item => (

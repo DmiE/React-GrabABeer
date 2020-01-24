@@ -8,7 +8,8 @@ const AdvancedForm = () => {
   const [beerProps, setBeerProps] = useState({
     beerName: '',
     beerType: '',
-    beerIBU: ''
+    beerIBU: '',
+    beerColor: ''
   });
 
   const changeHandler = event => {
@@ -53,7 +54,12 @@ const AdvancedForm = () => {
         placeholder="IBU"
         onChange={changeHandler}
       />
-      <FormSelect options={['jasne', 'ciemne', '0 procent']} />
+      <FormSelect
+        options={['jasne', 'ciemne', '0 procent']}
+        id="beerColor"
+        value={beerProps.beerColor}
+        onChange={changeHandler}
+      />
       <button className={classes.adv_form__button} type="submit">
         SEARCH
       </button>
