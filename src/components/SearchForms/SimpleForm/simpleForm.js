@@ -5,10 +5,10 @@ import classes from './simpleForm.module.scss';
 const SimpleForm = () => {
   return (
     <form action="">
-      <FormInput
+      {/* <FormInput
         className={classes.simple_form__input}
         placeholder="type beer you search for"
-      />
+      /> */}
       <button>SEARCH</button>
     </form>
   );

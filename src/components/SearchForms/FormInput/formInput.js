@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 
 const FormInput = props => {
-  const [value, setValue] = useState('');
-
   return (
     <input
       className={props.className}
-      type="text"
-      value={value}
+      id={props.id}
+      value={props.value}
       placeholder={props.placeholder}
-      onChange={e => setValue(e.target.value)}
+      onChange={props.onChange}
     />
   );
 };
