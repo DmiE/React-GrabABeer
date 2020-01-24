@@ -4,6 +4,7 @@ import Header from './components/Header/header';
 import Section from './components/Section/section';
 import SimpleForm from './components/SearchForms/SimpleForm/simpleForm';
 import AdvancedForm from './components/SearchForms/AdvForm/advancedForm';
+import OutputList from './components/OutputList/outputList';
 
 import barImage from './assets/background.jpg';
 import formImage from './assets/background2.jpg';
@@ -23,6 +24,7 @@ function App() {
       </Section>
       <Section backgroundImage={mapImage} sectionId="Map">
         <p>Map</p>
+        <OutputList />
       </Section>
     </div>
   );
