@@ -33,25 +33,22 @@ const AdvancedForm = () => {
 
   return (
     <form onSubmit={submitHandler}>
-      <FormInput
-        className={classes.adv_form__input}
+      <FormSelect
+        options={['zywiec', 'tyskie', 'mocny full']}
         id="beerName"
         value={beerProps.beerName}
-        placeholder="beer name"
         onChange={changeHandler}
       />
-      <FormInput
-        className={classes.adv_form__input}
+      <FormSelect
+        options={['lager', 'porter', 'pszeniczne']}
         id="beerType"
         value={beerProps.beerType}
-        placeholder="beer type"
         onChange={changeHandler}
       />
-      <FormInput
-        className={classes.adv_form__input}
+      <FormSelect
+        options={['1-20', '21-40', '41-60', '61-80', '81-100']}
         id="beerIBU"
         value={beerProps.beerIBU}
-        placeholder="IBU"
         onChange={changeHandler}
       />
       <FormSelect
