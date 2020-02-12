@@ -21,7 +21,8 @@ const AdvancedForm = () => {
   const submitHandler = event => {
     event.preventDefault();
     axios
-      .post('https://jsonplaceholder.typicode.com/posts', beerProps)
+      // .post('https://jsonplaceholder.typicode.com/posts', beerProps)
+      .post(process.env.REACT_APP_DATABASE_URL + '.json', beerProps)
       .then(function(response) {
         console.log(response);
       })
