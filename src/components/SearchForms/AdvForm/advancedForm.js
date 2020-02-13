@@ -1,16 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormInput from '../FormInput/formInput';
 import classes from './advancedForm.module.scss';
 import FormSelect from '../FormSelect/formSelect';
 import axios from 'axios';
 
 const AdvancedForm = () => {
+  const [beersData, setBeersData] = useState({});
   const [beerProps, setBeerProps] = useState({
     beerName: '',
     beerType: '',
     beerIBU: '',
     beerColor: ''
   });
+
+  useEffect(() => {
+    console.log('mounted');
+    axios
+      .get(process.env.REACT_APP_DATABASE_URL + '.json')
+      .then(function(response) {
+        console.log(response.data);
+        setBeersData(response.data);
+      })
+      .catch(function(error) {
+        console.log(error);
+      })
+      .then(function() {});
+  }, []);
 
   const changeHandler = event => {
     const newBeerProps = { ...beerProps };
@@ -20,16 +35,16 @@ const AdvancedForm = () => {
 
   const submitHandler = event => {
     event.preventDefault();
-    axios
-      // .post('https://jsonplaceholder.typicode.com/posts', beerProps)
-      .post(process.env.REACT_APP_DATABASE_URL + '.json', beerProps)
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
-      .then(function() {});
+    // axios
+    //   .get(process.env.REACT_APP_DATABASE_URL + '.json')
+    //   .then(function(response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   })
+    //   .then(function() {});
+    console.log(beersData);
   };
 
   return (
