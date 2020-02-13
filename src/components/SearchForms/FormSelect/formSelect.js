@@ -9,7 +9,7 @@ const FormSelect = props => {
       onChange={props.onChange}
       onBlur={props.onChange}
     >
-      <option value="">all</option>
+      <option value="">{props.placeholder}</option>
       {props.options.map(item => (
         <option key={item} value={item}>
           {item}
