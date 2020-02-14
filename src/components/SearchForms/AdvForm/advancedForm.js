@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import FormInput from '../FormInput/formInput';
 import classes from './advancedForm.module.scss';
 import FormSelect from '../FormSelect/formSelect';
 import axios from 'axios';
+import { firestore } from '../../../firebase';
 
 const AdvancedForm = () => {
   const [beersData, setBeersData] = useState({});
@@ -15,6 +15,14 @@ const AdvancedForm = () => {
 
   useEffect(() => {
     console.log('mounted');
+    const posts = firestore
+      .collection('posts')
+      .get()
+      .then(snapshot => {
+        console.log({ snapshot });
+      });
+
+    console.log({ posts });
     axios
       .get(process.env.REACT_APP_DATABASE_URL + '.json')
       .then(function(response) {
