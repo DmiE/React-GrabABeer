@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classes from './advancedForm.module.scss';
 import FormSelect from '../FormSelect/formSelect';
-import axios from 'axios';
 import { firestore } from '../../../firebase';
 
 const AdvancedForm = () => {
@@ -15,25 +14,23 @@ const AdvancedForm = () => {
 
   useEffect(() => {
     console.log('mounted');
-    const posts = firestore
-      .collection('posts')
-      .get()
-      .then(snapshot => {
-        console.log({ snapshot });
+    // const posts = firestore
+    //   .collection('posts')
+    //   .get()
+    //   .then(snapshot => {
+    //     console.log({ snapshot });
+    //   });
+
+    (async () => {
+      const snapshot = await firestore.collection('beers').get();
+
+      const posts = snapshot.docs.map(doc => {
+        return { id: doc.id, ...doc.data() };
       });
 
-    console.log({ posts });
-    axios
-      .get(process.env.REACT_APP_DATABASE_URL + '.json')
-      .then(function(response) {
-        console.log(response.data);
-        setBeersData(response.data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
-      .then(function() {});
-  }, []);
+      setBeersData(posts);
+    })();
+  }, [setBeersData]);
 
   const changeHandler = event => {
     const newBeerProps = { ...beerProps };
@@ -43,17 +40,10 @@ const AdvancedForm = () => {
 
   const submitHandler = event => {
     event.preventDefault();
-    // axios
-    //   .get(process.env.REACT_APP_DATABASE_URL + '.json')
-    //   .then(function(response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function(error) {
-    //     console.log(error);
-    //   })
-    //   .then(function() {});
     console.log(beersData);
   };
+
+  console.log(beersData);
 
   return (
     <form onSubmit={submitHandler}>
