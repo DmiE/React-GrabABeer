@@ -4,7 +4,11 @@ import FormSelect from '../FormSelect/formSelect';
 import { firestore } from '../../../firebase';
 
 const AdvancedForm = () => {
-  const [beersData, setBeersData] = useState({});
+  const [beersData, setBeersData] = useState({
+    beerName: [],
+    beerType: [],
+    beerAlcohol: []
+  });
   const [beerProps, setBeerProps] = useState({
     beerName: '',
     beerType: '',
@@ -12,23 +16,44 @@ const AdvancedForm = () => {
     beerColor: ''
   });
 
+  const onlyUnique = (value, index, self) => {
+    return self.indexOf(value) === index;
+  };
+
   useEffect(() => {
     console.log('mounted');
-    // const posts = firestore
-    //   .collection('posts')
-    //   .get()
-    //   .then(snapshot => {
-    //     console.log({ snapshot });
-    //   });
 
     (async () => {
       const snapshot = await firestore.collection('beers').get();
 
-      const posts = snapshot.docs.map(doc => {
-        return { id: doc.id, ...doc.data() };
-      });
+      // query selector
+      // firestore
+      //   .collection('beers')
+      //   .where('alcohol', '==', '2')
+      //   .get()
+      //   .then(function(querySnapshot) {
+      //     querySnapshot.forEach(function(doc) {
+      //       // console.log(doc.id, ' => ', doc.data());
+      //     });
+      //   });
 
-      setBeersData(posts);
+      const options = {
+        beerName: [],
+        beerType: [],
+        beerAlcohol: []
+      };
+      snapshot.docs.forEach(doc => {
+        options.beerName.push(doc.data().name);
+        options.beerType.push(doc.data().type);
+        options.beerAlcohol.push(doc.data().alcohol);
+      });
+      const uniqueOptions = {
+        beerName: options.beerName.filter(onlyUnique),
+        beerType: options.beerType.filter(onlyUnique),
+        beerAlcohol: options.beerAlcohol.filter(onlyUnique)
+      };
+
+      setBeersData(uniqueOptions);
     })();
   }, [setBeersData]);
 
@@ -40,15 +65,12 @@ const AdvancedForm = () => {
 
   const submitHandler = event => {
     event.preventDefault();
-    console.log(beersData);
   };
-
-  console.log(beersData);
 
   return (
     <form onSubmit={submitHandler}>
       <FormSelect
-        options={['zywiec', 'tyskie', 'mocny full']}
+        options={beersData.beerName}
         id="beerName"
         className={classes.adv_form__select}
         value={beerProps.beerName}
@@ -56,7 +78,7 @@ const AdvancedForm = () => {
         placeholder={'Beer Name'}
       />
       <FormSelect
-        options={['lager', 'porter', 'pszeniczne']}
+        options={beersData.beerType}
         id="beerType"
         className={classes.adv_form__select}
         value={beerProps.beerType}
@@ -64,21 +86,21 @@ const AdvancedForm = () => {
         placeholder={'Type Of Beer'}
       />
       <FormSelect
-        options={['1-20', '21-40', '41-60', '61-80', '81-100']}
+        options={beersData.beerAlcohol}
         id="beerIBU"
         className={classes.adv_form__select}
         value={beerProps.beerIBU}
         onChange={changeHandler}
         placeholder={'IBU'}
       />
-      <FormSelect
+      {/* <FormSelect
         options={['jasne', 'ciemne', '0 procent']}
         id="beerColor"
         className={classes.adv_form__select}
         value={beerProps.beerColor}
         onChange={changeHandler}
         placeholder={'Beer Color'}
-      />
+      /> */}
       <button className={classes.adv_form__button} type="submit">
         SEARCH
       </button>
