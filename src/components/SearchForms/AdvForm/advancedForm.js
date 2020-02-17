@@ -23,39 +23,78 @@ const AdvancedForm = () => {
   useEffect(() => {
     console.log('mounted');
 
-    (async () => {
-      const snapshot = await firestore.collection('beers').get();
+    // (async () => {
+    //   const snapshot = await firestore.collection('beers').get();
 
-      // query selector
-      // firestore
-      //   .collection('beers')
-      //   .where('alcohol', '==', '2')
-      //   .get()
-      //   .then(function(querySnapshot) {
-      //     querySnapshot.forEach(function(doc) {
-      //       // console.log(doc.id, ' => ', doc.data());
-      //     });
-      //   });
+    //   // query selector
+    //   // firestore
+    //   //   .collection('beers')
+    //   //   .where('alcohol', '==', '2')
+    //   //   .get()
+    //   //   .then(function(querySnapshot) {
+    //   //     querySnapshot.forEach(function(doc) {
+    //   //       // console.log(doc.id, ' => ', doc.data());
+    //   //     });
+    //   //   });
 
+    //   const options = {
+    //     beerName: [],
+    //     beerType: [],
+    //     beerAlcohol: []
+    //   };
+    //   snapshot.docs.forEach(doc => {
+    //     options.beerName.push(doc.data().name);
+    //     options.beerType.push(doc.data().type);
+    //     options.beerAlcohol.push(doc.data().alcohol);
+    //   });
+    //   const uniqueOptions = {
+    //     beerName: options.beerName.filter(onlyUnique),
+    //     beerType: options.beerType.filter(onlyUnique),
+    //     beerAlcohol: options.beerAlcohol.filter(onlyUnique)
+    //   };
+
+    //   setBeersData(uniqueOptions);
+    // })();
+  }, [setBeersData]);
+
+  useEffect(() => {
+    const fetchBeersData = async () => {
       const options = {
         beerName: [],
         beerType: [],
         beerAlcohol: []
       };
-      snapshot.docs.forEach(doc => {
-        options.beerName.push(doc.data().name);
-        options.beerType.push(doc.data().type);
-        options.beerAlcohol.push(doc.data().alcohol);
-      });
-      const uniqueOptions = {
-        beerName: options.beerName.filter(onlyUnique),
-        beerType: options.beerType.filter(onlyUnique),
-        beerAlcohol: options.beerAlcohol.filter(onlyUnique)
-      };
+      let query = firestore.collection('beers');
 
-      setBeersData(uniqueOptions);
-    })();
-  }, [setBeersData]);
+      if (beerProps.beerName) {
+        query = query.where('name', '==', beerProps.beerName);
+      }
+      if (beerProps.beerType) {
+        query = query.where('type', '==', beerProps.beerType);
+      }
+      if (beerProps.beerIBU) {
+        query = query.where('alcohol', '==', beerProps.beerIBU);
+      }
+
+      query = await query.get().then(function(querySnapshot) {
+        querySnapshot.forEach(doc => {
+          options.beerName.push(doc.data().name);
+          options.beerType.push(doc.data().type);
+          options.beerAlcohol.push(doc.data().alcohol);
+        });
+
+        const uniqueOptions = {
+          beerName: options.beerName.filter(onlyUnique),
+          beerType: options.beerType.filter(onlyUnique),
+          beerAlcohol: options.beerAlcohol.filter(onlyUnique)
+        };
+
+        setBeersData(uniqueOptions);
+      });
+    };
+
+    fetchBeersData();
+  }, [beerProps, setBeersData]);
 
   const changeHandler = event => {
     const newBeerProps = { ...beerProps };
