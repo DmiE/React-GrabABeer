@@ -1,9 +1,8 @@
 const initialState = {
-  fetchedBeers: {}
+  fetchedBeers: []
 };
 
 const reducer = (state = initialState, action) => {
-  console.log('acton => ', action);
   switch (action.type) {
     case 'SETFETCHEDBEERS':
       return {
