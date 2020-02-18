@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import classes from './advancedForm.module.scss';
 import FormSelect from '../FormSelect/formSelect';
 import { firestore } from '../../../firebase';
+import { connect } from 'react-redux';
 
-const AdvancedForm = () => {
+const AdvancedForm = props => {
   const [beersData, setBeersData] = useState({
     beerStyle: [],
     beerBrewerName: [],
@@ -64,14 +65,16 @@ const AdvancedForm = () => {
     if (beerProps.beerAlcohol) {
       query = query.where('alcohol', '==', parseFloat(beerProps.beerAlcohol));
     }
+    return await apiCall(query);
+  };
 
-    await query.get().then(function(querySnapshot) {
-      const fetchedData = querySnapshot.docs.map(doc => {
-        console.log(doc.data());
-        return doc.data();
-      });
-      setSearchedBeers(fetchedData);
+  const apiCall = async query => {
+    const querySnapshot = await query.get();
+    const fetchedData = querySnapshot.docs.map(doc => {
+      return doc.data();
     });
+
+    return fetchedData;
   };
 
   const changeHandler = event => {
@@ -80,10 +83,17 @@ const AdvancedForm = () => {
     setBeerProps(newBeerProps);
   };
 
-  const submitHandler = event => {
+  const submitHandler = async event => {
     event.preventDefault();
-    fetchBeersData();
+    const res = await fetchBeersData();
+    setSearchedBeers(res);
+    props.setFetchedBeers(res);
   };
+
+  // console.log(searchedBeers);
+  useEffect(() => {
+    console.log('update => ', props.fetchedBeers);
+  }, [props.fetchedBeers]);
 
   return (
     <form onSubmit={submitHandler}>
@@ -126,4 +136,17 @@ const AdvancedForm = () => {
   );
 };
 
-export default AdvancedForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    setFetchedBeers: fetchedBeers =>
+      dispatch({ type: 'SETFETCHEDBEERS', fetchedBeers: fetchedBeers })
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    fetchedBeers: state.fetchedBeers
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdvancedForm);
