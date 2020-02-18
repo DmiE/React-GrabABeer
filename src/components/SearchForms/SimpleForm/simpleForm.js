@@ -1,38 +1,43 @@
 import React, { useState } from 'react';
 import FormInput from '../FormInput/formInput';
 import classes from './simpleForm.module.scss';
-import axios from 'axios';
+import { firestore } from '../../../firebase';
+import { connect } from 'react-redux';
+import { apiCall } from '../../../common/utilities';
 
-const SimpleForm = () => {
-  const [beerName, setBeerName] = useState({
+const SimpleForm = props => {
+  const [beerProps, setBeerProps] = useState({
     beerName: ''
   });
 
-  const changeHandler = event => {
-    const newBeerProps = { ...beerName };
-    newBeerProps[event.target.id] = event.target.value;
-    setBeerName(newBeerProps);
+  const fetchBeerData = async () => {
+    let query = firestore.collection('beers');
+
+    if (beerProps.beerName) {
+      query = query.where('name', '==', beerProps.beerName);
+    }
+
+    return await apiCall(query);
   };
 
-  const submitHandler = event => {
+  const changeHandler = event => {
+    const newBeerProps = { ...beerProps };
+    newBeerProps[event.target.id] = event.target.value;
+    setBeerProps(newBeerProps);
+  };
+
+  const submitHandler = async event => {
     event.preventDefault();
-    axios
-      .post('https://jsonplaceholder.typicode.com/posts', beerName)
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
-      .then(function() {});
+    const res = await fetchBeerData();
+    props.setFetchedBeers(res);
   };
 
   return (
     <form onSubmit={submitHandler}>
       <FormInput
-        className={classes.adv_form__input}
+        className={classes.simple_form__input}
         id="beerName"
-        value={beerName.beerName}
+        value={beerProps.beerName}
         placeholder="beer name"
         onChange={changeHandler}
       />
@@ -41,4 +46,17 @@ const SimpleForm = () => {
   );
 };
 
-export default SimpleForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    setFetchedBeers: fetchedBeers =>
+      dispatch({ type: 'SETFETCHEDBEERS', fetchedBeers: fetchedBeers })
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    fetchedBeers: state.fetchedBeers
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SimpleForm);

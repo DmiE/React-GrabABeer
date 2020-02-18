@@ -3,6 +3,7 @@ import classes from './advancedForm.module.scss';
 import FormSelect from '../FormSelect/formSelect';
 import { firestore } from '../../../firebase';
 import { connect } from 'react-redux';
+import { apiCall } from '../../../common/utilities';
 
 const AdvancedForm = props => {
   const [beersData, setBeersData] = useState({
@@ -17,11 +18,8 @@ const AdvancedForm = props => {
     beerIBU: '',
     beerAlcohol: ''
   });
-  const [searchedBeers, setSearchedBeers] = useState({});
 
   useEffect(() => {
-    console.log('mounted');
-
     (async () => {
       const snapshot = await firestore.collection('beers').get();
       const options = {
@@ -68,15 +66,6 @@ const AdvancedForm = props => {
     return await apiCall(query);
   };
 
-  const apiCall = async query => {
-    const querySnapshot = await query.get();
-    const fetchedData = querySnapshot.docs.map(doc => {
-      return doc.data();
-    });
-
-    return fetchedData;
-  };
-
   const changeHandler = event => {
     const newBeerProps = { ...beerProps };
     newBeerProps[event.target.id] = event.target.value;
@@ -86,14 +75,8 @@ const AdvancedForm = props => {
   const submitHandler = async event => {
     event.preventDefault();
     const res = await fetchBeersData();
-    setSearchedBeers(res);
     props.setFetchedBeers(res);
   };
-
-  // console.log(searchedBeers);
-  useEffect(() => {
-    console.log('update => ', props.fetchedBeers);
-  }, [props.fetchedBeers]);
 
   return (
     <form onSubmit={submitHandler}>
