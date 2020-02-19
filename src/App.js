@@ -15,15 +15,12 @@ function App() {
     <div className="App">
       <Header />
       <Section backgroundImage={barImage} sectionId="Hero">
-        <p>Hero</p>
         <SimpleForm />
       </Section>
       <Section backgroundImage={formImage} sectionId="Search">
-        <p>Form</p>
         <AdvancedForm />
       </Section>
       <Section backgroundImage={mapImage} sectionId="Map">
-        <p>Map</p>
         <OutputList />
       </Section>
     </div>
