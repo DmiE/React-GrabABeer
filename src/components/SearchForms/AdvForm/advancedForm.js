@@ -4,6 +4,8 @@ import FormSelect from '../FormSelect/formSelect';
 import { firestore } from '../../../firebase';
 import { connect } from 'react-redux';
 import { apiCall } from '../../../common/utilities';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const AdvancedForm = props => {
   const [beersData, setBeersData] = useState({
@@ -79,7 +81,7 @@ const AdvancedForm = props => {
   };
 
   return (
-    <form onSubmit={submitHandler}>
+    <form className={classes.adv_form} onSubmit={submitHandler}>
       <FormSelect
         options={beersData.beerStyle}
         id="beerStyle"

@@ -4,6 +4,8 @@ import classes from './simpleForm.module.scss';
 import { firestore } from '../../../firebase';
 import { connect } from 'react-redux';
 import { apiCall } from '../../../common/utilities';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const SimpleForm = props => {
   const [beerProps, setBeerProps] = useState({
@@ -33,7 +35,7 @@ const SimpleForm = props => {
   };
 
   return (
-    <form onSubmit={submitHandler}>
+    <form className={classes.simple_form} onSubmit={submitHandler}>
       <FormInput
         className={classes.simple_form__input}
         id="beerName"
@@ -41,7 +43,12 @@ const SimpleForm = props => {
         placeholder="beer name"
         onChange={changeHandler}
       />
-      <button type="submit">SEARCH</button>
+      <button className={classes.simple_form__button} type="submit">
+        <FontAwesomeIcon
+          className={classes.form__search_icon}
+          icon={faSearch}
+        />
+      </button>
     </form>
   );
 };
