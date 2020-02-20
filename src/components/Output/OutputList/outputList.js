@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import OutputItem from './OutputItem/outputItem';
+import classes from './outputList.module.scss';
 
 const OutputList = props => {
   const [items, setItems] = useState(['list is empty!!']);
@@ -25,7 +26,7 @@ const OutputList = props => {
     }
   }, [props.fetchedBeers]);
 
-  return <ul>{items}</ul>;
+  return <ul className={classes.list__container}>{items}</ul>;
 };
 
 const mapStateToProps = state => {
