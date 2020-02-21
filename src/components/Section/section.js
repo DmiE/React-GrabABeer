@@ -3,8 +3,6 @@ import classes from './section.module.scss';
 
 const Section = props => {
   let styles = {};
-  // let styles = props.heroSection === true ? { height: '100vh' } : {};
-  console.log('hero section');
 
   if (props.backgroundImage) {
     styles.backgroundImage = 'url(' + props.backgroundImage + ')';

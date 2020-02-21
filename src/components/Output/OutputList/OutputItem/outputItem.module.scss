@@ -21,11 +21,9 @@
   justify-content: space-around;
 }
 
-.item__name_container {
-}
-
 .item__name {
   text-align: left;
+  text-transform: capitalize;
 }
 
 .item__info_container {

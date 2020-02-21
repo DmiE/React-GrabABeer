@@ -5,6 +5,11 @@ import classes from './outputList.module.scss';
 
 const OutputList = props => {
   const [items, setItems] = useState(['list is empty!!']);
+  const [activeItem, setActiveItem] = useState('blebleble');
+
+  const selectItemHandler = name => {
+    setActiveItem(name);
+  }
 
   useEffect(() => {
     if (props.fetchedBeers.length !== 0) {
@@ -17,6 +22,8 @@ const OutputList = props => {
             IBU={item.IBU}
             alcohol={item.alcohol}
             brewer={item.brewer}
+            selectItem={selectItemHandler}
+            isActive={activeItem}
           />
         );
       });
@@ -24,7 +31,7 @@ const OutputList = props => {
     } else {
       setItems(['list is empty']);
     }
-  }, [props.fetchedBeers]);
+  }, [props.fetchedBeers, activeItem]);
 
   return <ul className={classes.list__container}>{items}</ul>;
 };

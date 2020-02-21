@@ -1,6 +1,8 @@
 .list__container {
   width: 50%;
   margin: 0;
-  height: 100%;
+  height: calc(100% -50px);
+  margin-top: 50px;
+  padding-left: 0;
   // overflow-y: scroll;
 }

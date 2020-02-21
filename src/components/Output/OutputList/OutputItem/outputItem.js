@@ -2,8 +2,10 @@ import React from 'react';
 import classes from './outputItem.module.scss';
 
 const OutputItem = props => {
+  const style = props.isActive === props.name ? {background: '#eeeeee'} : {};
+  console.log(props.name + ' was updated');
   return (
-    <li className={classes.output__item}>
+    <li className={classes.output__item} onClick={() => props.selectItem(props.name)} style={style}>
       <div className={classes.item__logo_container}>
         <p>{props.brewer}</p>
       </div>
