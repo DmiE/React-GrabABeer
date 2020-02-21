@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Section backgroundImage={barImage} sectionId="Hero">
+      <Section backgroundImage={barImage} heroSection={true} sectionId="Hero">
         <SimpleForm />
       </Section>
       <Section backgroundImage={formImage} sectionId="Search">
