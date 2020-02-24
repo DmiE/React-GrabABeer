@@ -9,10 +9,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         fetchedBeers: action.fetchedBeers
       };
-    case 'SETACTIVEITEM':
+    case 'SETACTIVEBEER':
       return {
         ...state,
-        activeItem: action.activeItem
+        activeBeer: action.activeBeer
       };
     default:
       return state;

@@ -46,7 +46,7 @@ const OutputList = props => {
       activeItem !== prevAcitveItem
     ) {
       const items = renderItems(activeItem);
-      props.setChosedItem(activeItem);
+      props.setActiveBeer(activeItem);
       setItems([items]);
     } else {
       setItems(['list is empty']);
@@ -59,8 +59,8 @@ const OutputList = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setChosedItem: activeItem =>
-      dispatch({ type: 'SETACTIVEITEM', activeItem: activeItem })
+    setActiveBeer: activeBeer =>
+      dispatch({ type: 'SETACTIVEBEER', activeBeer: activeBeer })
   };
 };
 

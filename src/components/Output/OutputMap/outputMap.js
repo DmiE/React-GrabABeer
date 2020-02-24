@@ -2,27 +2,57 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import classes from './outputMap.module.scss';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-
+import { firestore } from '../../../firebase';
+import { apiCall } from '../../../common/utilities';
 
 const position = [50.062402, 19.942432];
 
-const OutputMap = (props) => {
+const OutputMap = props => {
   const [markers, setMarkers] = useState([]);
 
-  useEffect(() => {
-    if(props.fetchedBeers.length !== 0) {
-      const newMarkers = props.fetchedBeers.map(item => {
-        return (
-          <Marker position={position} key={item.name}>
-            <Popup>
-              {item.name}
-            </Popup>
-          </Marker>
-        )
-      })
-      setMarkers(newMarkers)
+  const fetchBeerLocation = async () => {
+    let query = firestore.collection('places');
+
+    if (props.activeBeer) {
+      query = query.doc(props.activeBeer);
+      // console.log(apiCall(query));
     }
-  }, [props.fetchedBeers, setMarkers])
+    const fetchedLocations = await query.get();
+    console.log(
+      fetchedLocations.docs.map(doc => {
+        return doc.data().locations;
+      })
+    );
+
+    // query.get().then(doc => {
+    //   if (doc.exists) {
+    //     const docData = doc.data().locations.map(doc => {
+    //       return doc.locationName;
+    //     });
+    //     // console.log('Document data:', doc.data().locations);
+    //     console.log(docData);
+    //   } else {
+    //     // doc.data() will be undefined in this case
+    //     console.log('No such document!');
+    //   }
+    // });
+  };
+
+  useEffect(() => {
+    if (props.activeBeer !== '') {
+      // wysłanie zapytania do api o array z nazwami i lokalizacjami
+      // utowrzenie markera dla kazdego z wynikow
+      // const newMarkers = props.activeBeer.map(item => {
+      //   return (
+      //     <Marker position={position} key={item.name}>
+      //       <Popup>{item.name}</Popup>
+      //     </Marker>
+      //   );
+      // });
+      // setMarkers(newMarkers);
+      fetchBeerLocation();
+    }
+  }, [props.activeBeer, setMarkers]);
 
   return (
     <div className={classes.map__container}>
@@ -40,7 +70,7 @@ const OutputMap = (props) => {
 
 const mapStateToProps = state => {
   return {
-    fetchedBeers: state.fetchedBeers
+    activeBeer: state.activeBeer
   };
 };
 
