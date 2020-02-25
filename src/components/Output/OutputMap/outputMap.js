@@ -12,17 +12,29 @@ const OutputMap = props => {
 
   const fetchBeerLocation = async () => {
     let query = firestore.collection('places');
+    let fetchedLocations = [];
 
     if (props.activeBeer) {
       query = query.doc(props.activeBeer);
+      try {
+        fetchedLocations = await query.get();
+        console.log(
+          fetchedLocations.data().locations.map(doc => {
+            return doc;
+          })
+        );
+      } catch (err) {
+        console.log(err);
+      }
+
       // console.log(apiCall(query));
     }
-    const fetchedLocations = await query.get();
-    console.log(
-      fetchedLocations.docs.map(doc => {
-        return doc.data().locations;
-      })
-    );
+    // console.log(
+    //   fetchedLocations.docs.map(doc => {
+    //     return doc.data().locations;
+    //   })
+
+    console.log('activeBeer => ', props.activeBeer);
 
     // query.get().then(doc => {
     //   if (doc.exists) {
